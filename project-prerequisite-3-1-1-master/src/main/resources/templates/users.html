@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Page</title>
+</head>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #000;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+
+    .error {
+        color: red;
+    }
+</style>
+<body>
+
+<h1>Add User</h1>
+
+<form th:action="add" th:method="post" th:object="${userForm}">
+    <div>
+        <label for="firstName">First Name</label><br>
+        <input type="text" placeholder="e.g. John" th:field="*{firstName}">
+        <p th:if="${#fields.hasErrors('firstName')}" th:errorclass="error" th:errors="*{firstName}"></p>
+    </div>
+    <div>
+        <label for="lastName">Last Name</label><br>
+        <input type="text" placeholder="e.g. Doe" th:field="*{lastName}">
+        <p th:if="${#fields.hasErrors('lastName')}" th:errorclass="error" th:errors="*{lastName}"></p>
+    </div>
+    <div>
+        <label for="age">Age</label><br>
+        <input type="text" placeholder="0" th:field="*{age}">
+        <p th:if="${#fields.hasErrors('age')}" th:errorclass="error" th:errors="*{age}"></p>
+    </div>
+    <br>
+    <button type="submit">Add User</button>
+</form>
+
+
+<h1>User List</h1>
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Age</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.age}"></td>
+        <td><a th:href="@{/edit(id=${user.id})}">Edit</a></td>
+        <td><a th:href="@{/delete(id=${user.id})}">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
